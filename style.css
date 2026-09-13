@@ -298,10 +298,10 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 
 .photo-frame {
   position: relative;
-  width: min(100%, 340px);
-  aspect-ratio: 4 / 5;
-  border-radius: 32px;
-  padding: 5px; /* épaisseur du liseré scintillant */
+  width: min(100%, 320px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  padding: 6px; /* épaisseur du liseré scintillant */
   background: conic-gradient(
     from var(--frame-angle, 0deg),
     var(--amber),
@@ -322,11 +322,12 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   display: block;
   object-fit: cover;
   object-position: center top;
-  border-radius: 28px; /* légèrement < parent pour laisser voir le liseré */
+  border-radius: 50%;
   background: var(--paper-dim);
+  border: 3px solid var(--paper); /* petit liseré clair entre le dégradé et la photo */
 }
 
-/* étincelles : petits points lumineux qui pulsent autour du cadre */
+/* étincelles : petits points lumineux qui pulsent autour du cercle */
 .photo-frame::before,
 .photo-frame::after {
   content: "";
@@ -339,8 +340,8 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   animation: sparkle 2.4s ease-in-out infinite;
 }
 
-.photo-frame::before { top: -6px; right: 18%; }
-.photo-frame::after  { bottom: 10%; left: -7px; animation-delay: 1.1s; background: var(--teal); box-shadow: 0 0 14px 4px rgba(51, 102, 95, 0.55); }
+.photo-frame::before { top: 4%; right: 4%; }
+.photo-frame::after  { bottom: 8%; left: 0%; animation-delay: 1.1s; background: var(--teal); box-shadow: 0 0 14px 4px rgba(51, 102, 95, 0.55); }
 
 @property --frame-angle {
   syntax: '<angle>';
