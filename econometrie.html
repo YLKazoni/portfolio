@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Économétrie (R) — Yves Landry Kazoni</title>
+<meta name="description" content="Mini-projets d'économétrie en R réalisés par Yves Landry Kazoni : assurance automobile, chômage au Maroc.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="brand">yves<span>.</span>kazoni</a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Ouvrir le menu">Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="projets.html" aria-current="page">Projets</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="subnav">
+  <div class="wrap">
+    <a href="projets.html">← Toutes les catégories</a>
+    <a href="powerbi.html">Power BI</a>
+    <a href="econometrie.html" aria-current="page">Économétrie (R)</a>
+    <a href="machine-learning.html">Python / ML</a>
+  </div>
+</div>
+
+<main>
+  <section class="wrap" style="padding-top: clamp(2.5rem, 5vw, 4rem);">
+    <p class="eyebrow">Économétrie · R</p>
+    <h1>Mini-projets d'économétrie appliquée</h1>
+    <p class="lede">Deux mini-projets réalisés dans le cadre de la formation d'Ingénieur
+       Statisticien à l'INSSEDS, avec données réelles et méthodologie complète
+       (identification, estimation, validation, prévision).</p>
+  </section>
+
+  <section class="wrap" style="padding-top: 0;">
+    <div class="project-grid">
+
+      <div class="card">
+        <div class="tag-row">
+          <span class="tag">R</span>
+          <span class="tag">Économétrie des variables qualitatives</span>
+          <span class="tag">Modèles de comptage</span>
+        </div>
+        <h3>Modélisation du risque en assurance automobile</h3>
+        <p>Portefeuille réel d'une compagnie IARD française (678 013 contrats).
+           Régression logistique pour la probabilité de sinistre (AUC = 0,69),
+           puis comparaison Poisson / Binomiale Négative / ZINB pour la
+           fréquence de sinistres — avec tests de Cameron-Trivedi, LRT et
+           Vuong. Le ZINB est retenu comme modèle final. Variable clé : le
+           score BonusMalus (OR = 7,59).</p>
+        <div class="card-links">
+          <a href="projet-assurance.html">Voir le détail →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag-row">
+          <span class="tag">R</span>
+          <span class="tag">Séries temporelles</span>
+          <span class="tag">ARIMA / SARIMA</span>
+        </div>
+        <h3>Analyse et prévision du taux de chômage au Maroc</h3>
+        <p>Données trimestrielles du Haut-Commissariat au Plan (2006T1–2025T3,
+           79 observations). Tests de stationnarité ADF/KPSS, grille de
+           sélection sur 144 combinaisons SARIMA, tests de causalité de
+           Granger. Modèle ARIMA(1,1,2) retenu pour sa meilleure
+           généralisation hors échantillon ; prévisions à horizon
+           2025T4–2027T3 confirmant un plateau structurel autour de 13 %.</p>
+        <div class="card-links">
+          <a href="projet-chomage.html">Voir le détail →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="wrap section-border-top">
+    <div class="callout">
+      <p><strong>Développement &amp; automatisation.</strong> L'import, le nettoyage et le
+         contrôle qualité des données de ces deux projets reposent sur des
+         scripts R structurés et réutilisables — un réflexe issu d'une
+         formation initiale en développement d'applications, qui garantit la
+         reproductibilité de l'analyse plutôt qu'un traitement ponctuel.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Yves Landry Kazoni — landryyves0@gmail.com</span>
+  <span>R, Python, Power BI — Abidjan, Côte d'Ivoire</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chômage au Maroc — Séries temporelles | Yves Landry Kazoni</title>
+<meta name="description" content="Analyse et prévision du taux de chômage au Maroc — modélisation ARIMA/SARIMA sur données trimestrielles du HCP (2006-2025).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav wrap">
+    <a href="index.html" class="brand">yves<span>.</span>kazoni</a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Ouvrir le menu">Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="projets.html" aria-current="page">Projets</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="subnav">
+  <div class="wrap">
+    <a href="projets.html">← Toutes les catégories</a>
+    <a href="powerbi.html">Power BI</a>
+    <a href="econometrie.html">Économétrie (R)</a>
+    <a href="machine-learning.html">Python / ML</a>
+  </div>
+</div>
+
+<main>
+  <section class="project-hero wrap">
+    <a href="econometrie.html" class="breadcrumb">← Retour à Économétrie (R)</a>
+    <p class="eyebrow">Économétrie des séries temporelles · Mini-projet N°2 · INSSEDS</p>
+    <h1>Analyse et prévision du taux de chômage au Maroc</h1>
+    <p class="lede">Données trimestrielles du Haut-Commissariat au Plan (2006T1–2025T3).
+       Méthodologie Box-Jenkins complète : stationnarité, identification, estimation,
+       validation des résidus et prévision à horizon deux ans, avec analyse causale
+       (Granger) sur les sous-groupes démographiques.</p>
+
+    <div class="stat-row">
+      <div class="stat-cell"><span class="stat-value">79</span><span class="stat-label">Trimestres</span></div>
+      <div class="stat-cell"><span class="stat-value">10,33 %</span><span class="stat-label">Moyenne 2006–2025</span></div>
+      <div class="stat-cell"><span class="stat-value">~13 %</span><span class="stat-label">Plateau post-2020</span></div>
+      <div class="stat-cell"><span class="stat-value">I(1)</span><span class="stat-label">Ordre d'intégration</span></div>
+      <div class="stat-cell"><span class="stat-value">ARIMA(1,1,2)</span><span class="stat-label">Modèle retenu</span></div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top: 1.6rem;">
+    <div class="tabbar" data-tabgroup="chomage">
+      <button class="tab-btn" data-tab="apercu">Aperçu</button>
+      <button class="tab-btn" data-tab="sousgroupes">Sous-groupes</button>
+      <button class="tab-btn" data-tab="stationnarite">Stationnarité &amp; causalité</button>
+      <button class="tab-btn" data-tab="selection">Sélection de modèle</button>
+      <button class="tab-btn" data-tab="previsions">Prévisions</button>
+    </div>
+
+    <!-- APERÇU -->
+    <div class="tab-panel" data-tabgroup-panel="chomage" data-tab="apercu">
+      <h2>Démarche</h2>
+      <p>Le marché du travail marocain a connu une rupture structurelle nette avec le choc
+         COVID-19 : le taux de chômage bondit de 8,1 % à plus de 12,7 % entre fin 2019 et
+         mi-2020, puis se stabilise sur un plateau haut de 12–13 % sans retour au niveau
+         pré-crise — un effet d'hystérèse confirmé par la décomposition STL de la série.</p>
+      <div class="callout">
+        <p><strong>Résultat clé.</strong> La série est intégrée d'ordre 1 (confirmé par ADF et
+           KPSS). Le modèle <strong>ARIMA(1,1,2)</strong> est retenu — non pas pour le meilleur
+           AIC brut (dominé par des modèles instables et sur-paramétrés), mais pour sa
+           meilleure généralisation hors échantillon (RMSE = 3,11, MAPE = 29,1 % en
+           validation holdout, contre 37,5 % pour le SARIMA le mieux ajusté en apparence).</p>
+      </div>
+      <h2>Outils</h2>
+      <div class="skill-tags">
+        <span class="tag">R</span><span class="tag">forecast</span><span class="tag">tseries / urca</span>
+        <span class="tag">lmtest</span><span class="tag">Box-Jenkins</span><span class="tag">ggplot2</span>
+      </div>
+    </div>
+
+    <!-- SOUS-GROUPES -->
+    <div class="tab-panel" data-tabgroup-panel="chomage" data-tab="sousgroupes">
+      <h2>Statistiques descriptives par sous-groupe (2006T1–2025T3)</h2>
+      <p>Le taux global masque de fortes hétérogénéités structurelles : le chômage urbain
+         (14,83 % en moyenne) triple le taux rural, et les 15-24 ans culminent à 24,26 %
+         en moyenne avec un maximum de 39,5 %.</p>
+      <div class="table-toolbar">
+        <span class="mono">12 variables</span>
+        <input type="text" class="table-search" data-search-for="tbl-sousgroupes" placeholder="Filtrer une variable…">
+      </div>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-sousgroupes">
+          <thead><tr>
+            <th data-sort="text">Variable</th><th data-sort="num">Min</th><th data-sort="num">Q1</th>
+            <th data-sort="num">Médiane</th><th data-sort="num">Moyenne</th><th data-sort="num">Q3</th>
+            <th data-sort="num">Max</th><th data-sort="num">Écart-type</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Ensemble (global)</td><td class="num">7.8</td><td class="num">9.20</td><td class="num">9.8</td><td class="num">10.33</td><td class="num">11.60</td><td class="num">13.7</td><td class="num">1.613</td></tr>
+            <tr><td>Urbain</td><td class="num">11.7</td><td class="num">13.75</td><td class="num">14.6</td><td class="num">14.83</td><td class="num">16.00</td><td class="num">18.2</td><td class="num">1.431</td></tr>
+            <tr><td>Rural</td><td class="num">2.4</td><td class="num">3.70</td><td class="num">4.1</td><td class="num">4.49</td><td class="num">4.95</td><td class="num">7.4</td><td class="num">1.194</td></tr>
+            <tr><td>Masculin</td><td class="num">7.2</td><td class="num">8.70</td><td class="num">9.4</td><td class="num">9.54</td><td class="num">10.40</td><td class="num">12.0</td><td class="num">1.200</td></tr>
+            <tr><td>Féminin</td><td class="num">7.0</td><td class="num">9.80</td><td class="num">11.0</td><td class="num">12.90</td><td class="num">15.80</td><td class="num">21.6</td><td class="num">3.830</td></tr>
+            <tr><td>Sans diplôme</td><td class="num">2.4</td><td class="num">3.80</td><td class="num">4.5</td><td class="num">4.39</td><td class="num">4.90</td><td class="num">6.9</td><td class="num">0.790</td></tr>
+            <tr><td>Diplôme niveau moyen</td><td class="num">11.3</td><td class="num">14.65</td><td class="num">15.5</td><td class="num">15.58</td><td class="num">16.35</td><td class="num">20.9</td><td class="num">1.714</td></tr>
+            <tr><td>Diplôme niveau supérieur</td><td class="num">16.0</td><td class="num">19.75</td><td class="num">21.5</td><td class="num">21.90</td><td class="num">24.45</td><td class="num">27.6</td><td class="num">2.928</td></tr>
+            <tr><td>15–24 ans</td><td class="num">13.1</td><td class="num">18.45</td><td class="num">21.4</td><td class="num">24.26</td><td class="num">30.90</td><td class="num">39.5</td><td class="num">7.219</td></tr>
+            <tr><td>25–34 ans</td><td class="num">11.1</td><td class="num">13.25</td><td class="num">14.4</td><td class="num">15.59</td><td class="num">18.55</td><td class="num">22.0</td><td class="num">3.106</td></tr>
+            <tr><td>35–44 ans</td><td class="num">3.7</td><td class="num">5.10</td><td class="num">5.5</td><td class="num">5.82</td><td class="num">6.55</td><td class="num">8.1</td><td class="num">1.071</td></tr>
+            <tr><td>45 ans et plus</td><td class="num">1.5</td><td class="num">2.00</td><td class="num">2.4</td><td class="num">2.66</td><td class="num">3.35</td><td class="num">4.5</td><td class="num">0.822</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STATIONNARITE & CAUSALITE -->
+    <div class="tab-panel" data-tabgroup-panel="chomage" data-tab="stationnarite">
+      <h2>Tests de stationnarité</h2>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-stat">
+          <thead><tr><th data-sort="text">Test</th><th data-sort="text">Série</th><th data-sort="num">Statistique</th><th data-sort="num">p-valeur</th><th data-sort="text">Conclusion</th></tr></thead>
+          <tbody>
+            <tr><td>ADF</td><td>Niveau</td><td class="num">-3.122</td><td class="num">0.1167</td><td><span class="badge badge-warn">Non stationnaire</span></td></tr>
+            <tr><td>ADF</td><td>1ère différence</td><td class="num">-4.057</td><td class="num">0.0115</td><td><span class="badge badge-ok">Stationnaire</span></td></tr>
+            <tr><td>KPSS</td><td>Niveau</td><td class="num">1.443</td><td class="num">0.0100</td><td><span class="badge badge-warn">Non stationnaire</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1.2rem;">Les deux tests convergent : la série est <strong>intégrée d'ordre 1</strong>,
+         i.e. I(1) — validant l'hypothèse H1.</p>
+
+      <h2 style="margin-top:2rem;">Causalité de Granger sur le taux global (ensemble)</h2>
+      <p>Recherche des variables qui « précèdent » significativement le taux de chômage
+         global, à 1, 2 et 3 trimestres de décalage.</p>
+      <div class="table-toolbar">
+        <span class="mono">11 variables testées</span>
+        <input type="text" class="table-search" data-search-for="tbl-granger" placeholder="Filtrer…">
+      </div>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-granger">
+          <thead><tr>
+            <th data-sort="text">Variable</th><th data-sort="text">Lag 1</th><th data-sort="text">Lag 2</th>
+            <th data-sort="text">Lag 3</th><th data-sort="text">Verdict</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>15–24 ans</td><td>p=0.0001 ***</td><td>p=0.006 **</td><td>p=0.009 **</td><td><span class="badge badge-ok">Causalité robuste</span></td></tr>
+            <tr><td>25–34 ans</td><td>p=0.007 **</td><td>p=0.002 **</td><td>p=0.005 **</td><td><span class="badge badge-ok">Causalité robuste</span></td></tr>
+            <tr><td>Diplôme niveau moyen</td><td>p=0.0006 ***</td><td>p=0.107 NS</td><td>p=0.056 .</td><td><span class="badge badge-warn">Effet court terme</span></td></tr>
+            <tr><td>Sans diplôme</td><td>p=0.001 **</td><td>p=0.178 NS</td><td>p=0.224 NS</td><td><span class="badge badge-warn">Effet court terme</span></td></tr>
+            <tr><td>Féminin</td><td>p=0.005 **</td><td>p=0.152 NS</td><td>p=0.225 NS</td><td><span class="badge badge-warn">Effet court terme</span></td></tr>
+            <tr><td>Masculin</td><td>p=0.014 *</td><td>p=0.243 NS</td><td>p=0.320 NS</td><td><span class="badge badge-warn">Effet court terme</span></td></tr>
+            <tr><td>Urbain</td><td>p=0.011 *</td><td>p=0.194 NS</td><td>p=0.175 NS</td><td><span class="badge badge-warn">Effet court terme</span></td></tr>
+            <tr><td>Diplôme niveau supérieur</td><td>p=0.089 .</td><td>p=0.235 NS</td><td>p=0.337 NS</td><td><span class="badge badge-bad">Pas de causalité</span></td></tr>
+            <tr><td>Rural</td><td>p=0.757 NS</td><td>p=0.895 NS</td><td>p=0.944 NS</td><td><span class="badge badge-bad">Pas de causalité</span></td></tr>
+            <tr><td>35–44 ans</td><td>p=0.237 NS</td><td>p=0.809 NS</td><td>p=0.666 NS</td><td><span class="badge badge-bad">Pas de causalité</span></td></tr>
+            <tr><td>45 ans et plus</td><td>p=0.933 NS</td><td>p=0.568 NS</td><td>p=0.776 NS</td><td><span class="badge badge-bad">Pas de causalité</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p>Les 15-24 ans et 25-34 ans sont des <strong>indicateurs avancés</strong> robustes du
+           chômage global — les chocs touchent d'abord les jeunes avant de se propager
+           à l'ensemble du marché du travail.</p>
+      </div>
+    </div>
+
+    <!-- SELECTION -->
+    <div class="tab-panel" data-tabgroup-panel="chomage" data-tab="selection">
+      <h2>Top 10 modèles ARIMA(p,1,q) par AIC</h2>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-arima">
+          <thead><tr><th data-sort="text">Modèle</th><th data-sort="num">AIC</th><th data-sort="num">BIC</th><th data-sort="num">Log-Vraisemblance</th></tr></thead>
+          <tbody>
+            <tr><td>ARIMA(3,1,3)</td><td class="num">169.38</td><td class="num">185.87</td><td class="num">-77.688</td></tr>
+            <tr><td>ARIMA(4,1,3)</td><td class="num">170.67</td><td class="num">189.52</td><td class="num">-77.335</td></tr>
+            <tr><td>ARIMA(3,1,4)</td><td class="num">170.78</td><td class="num">189.64</td><td class="num">-77.392</td></tr>
+            <tr><td>ARIMA(4,1,4)</td><td class="num">172.14</td><td class="num">193.35</td><td class="num">-77.071</td></tr>
+            <tr><td>ARIMA(4,1,5)</td><td class="num">174.10</td><td class="num">197.66</td><td class="num">-77.048</td></tr>
+            <tr><td>ARIMA(3,1,5)</td><td class="num">176.17</td><td class="num">197.38</td><td class="num">-79.087</td></tr>
+            <tr><td>ARIMA(1,1,2) — retenu</td><td class="num">177.04</td><td class="num">186.47</td><td class="num">-84.520</td></tr>
+            <tr><td>ARIMA(3,1,1)</td><td class="num">177.80</td><td class="num">189.58</td><td class="num">-83.898</td></tr>
+            <tr><td>ARIMA(4,1,0)</td><td class="num">178.02</td><td class="num">189.80</td><td class="num">-84.010</td></tr>
+            <tr><td>ARIMA(0,1,5)</td><td class="num">178.31</td><td class="num">192.45</td><td class="num">-83.153</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p>Le critère AIC pur favorise ARIMA(3,1,3), mais ce modèle est <strong>instable et
+           sur-paramétré</strong>. Par principe de parcimonie, ARIMA(1,1,2) est retenu.</p>
+      </div>
+
+      <h2 style="margin-top:2rem;">Comparaison finale : ARIMA vs SARIMA vs Holt-Winters</h2>
+      <p>Performance hors échantillon (8 derniers trimestres en validation holdout) —
+         le critère qui compte pour la fiabilité des prévisions.</p>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-final">
+          <thead><tr>
+            <th data-sort="text">Modèle</th><th data-sort="num">AIC</th><th data-sort="num">BIC</th>
+            <th data-sort="num">RMSE (holdout)</th><th data-sort="num">MAPE (holdout, %)</th><th data-sort="text">Verdict</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>ARIMA(1,1,2)</td><td class="num">177.04</td><td class="num">186.47</td><td class="num">3.11</td><td class="num">29.14</td><td><span class="badge badge-ok">Retenu — meilleure généralisation</span></td></tr>
+            <tr><td>SARIMA(1,1,0)(2,1,1)[4]</td><td class="num">159.31</td><td class="num">170.83</td><td class="num">3.91</td><td class="num">37.48</td><td><span class="badge badge-bad">Surapprentissage</span></td></tr>
+            <tr><td>Holt-Winters</td><td class="num" data-value="0">—</td><td class="num" data-value="0">—</td><td class="num">3.53</td><td class="num">33.38</td><td><span class="badge badge-warn">Robuste, en retrait</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PREVISIONS -->
+    <div class="tab-panel" data-tabgroup-panel="chomage" data-tab="previsions">
+      <h2>Prévisions ARIMA(1,1,2) — 2025T4 à 2027T3</h2>
+      <p>Le modèle projette un taux de chômage global oscillant entre 12,8 % et 13,1 %,
+         un plateau nettement supérieur à la moyenne historique de 10,33 %, confirmant
+         l'enracinement du chômage post-COVID.</p>
+      <div class="table-scroll">
+        <table class="data-table" id="tbl-prev">
+          <thead><tr>
+            <th data-sort="text">Trimestre</th><th data-sort="num">Prévision (%)</th>
+            <th data-sort="num">IC 80 % inf.</th><th data-sort="num">IC 80 % sup.</th>
+            <th data-sort="num">IC 95 % inf.</th><th data-sort="num">IC 95 % sup.</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>2025T4</td><td class="num">12.827</td><td class="num">11.900</td><td class="num">13.753</td><td class="num">11.410</td><td class="num">14.244</td></tr>
+            <tr><td>2026T1</td><td class="num">13.127</td><td class="num">12.055</td><td class="num">14.200</td><td class="num">11.487</td><td class="num">14.768</td></tr>
+            <tr><td>2026T2</td><td class="num">12.828</td><td class="num">11.596</td><td class="num">14.060</td><td class="num">10.944</td><td class="num">14.712</td></tr>
+            <tr><td>2026T3</td><td class="num">13.126</td><td class="num">11.780</td><td class="num">14.471</td><td class="num">11.068</td><td class="num">15.183</td></tr>
+            <tr><td>2026T4</td><td class="num">12.830</td><td class="num">11.355</td><td class="num">14.305</td><td class="num">10.574</td><td class="num">15.086</td></tr>
+            <tr><td>2027T1</td><td class="num">13.124</td><td class="num">11.553</td><td class="num">14.695</td><td class="num">10.721</td><td class="num">15.527</td></tr>
+            <tr><td>2027T2</td><td class="num">12.832</td><td class="num">11.148</td><td class="num">14.516</td><td class="num">10.256</td><td class="num">15.407</td></tr>
+            <tr><td>2027T3</td><td class="num">13.122</td><td class="num">11.354</td><td class="num">14.891</td><td class="num">10.417</td><td class="num">15.827</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p>L'élargissement progressif des intervalles de confiance illustre l'accumulation
+           de l'incertitude : ±1 pp à l'horizon 1 trimestre, jusqu'à ±2,2 pp à l'horizon
+           8 trimestres — les prévisions ponctuelles sont des scénarios centraux, pas des
+           estimations précises à long terme.</p>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer wrap">
+  <span>© 2026 Yves Landry Kazoni</span>
+  <span>R, Python, Power BI — Abidjan, Côte d'Ivoire</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
