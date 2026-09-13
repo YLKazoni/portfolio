@@ -812,3 +812,37 @@ table.data-table td.num { font-family: var(--font-mono); text-align: right; }
 }
 .highlight-strip p { color: var(--paper); margin: 0; font-size: 0.92rem; }
 .highlight-strip strong { color: var(--white); }
+
+/* ---------- Ajout de photo d'identité ---------- */
+.PhotoId {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 
+              0 0 30px rgba(255, 255, 255, 0.6);
+  border: 3px solid #fff;
+  animation: sparkle 2s infinite alternate;
+}
+
+.PhotoId img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Animation étincelante */
+@keyframes sparkle {
+  from {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 
+                0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 1), 
+                0 0 40px rgba(255, 255, 255, 0.8);
+  }
+}
+
