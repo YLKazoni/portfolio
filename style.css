@@ -814,25 +814,30 @@ table.data-table td.num { font-family: var(--font-mono); text-align: right; }
 .highlight-strip strong { color: var(--white); }
 
 /* ---------- Ajout de photo d'identité ---------- */
-.PhotoId {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 
-              0 0 30px rgba(255, 255, 255, 0.6);
-  border: 3px solid #fff;
-  animation: sparkle 2s infinite alternate;
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
 }
 
-.PhotoId img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero-text {
+  flex: 1;
 }
+
+.hero-photo {
+  flex-shrink: 0;
+}
+
+.hero-photo img {
+  width: 180px;   /* plus grand que 120px */
+  height: 180px;
+  border-radius: 50%; /* arrondi type CV */
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+  border: 3px solid #fff;
+}
+
 
 /* Animation étincelante */
 @keyframes sparkle {
