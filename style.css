@@ -247,7 +247,7 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   max-width: 46ch;
 }
 
-.hero-figure {
+/* .hero-figure {
   border: 1px solid var(--line);
   background: var(--white);
   padding: 1.2rem;
